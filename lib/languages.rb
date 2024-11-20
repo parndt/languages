@@ -34,7 +34,11 @@ module Languages
     end
 
     def search(pattern, case_sensitive: true)
-      pattern = Regexp.new(Regexp.escape(pattern), Regexp::IGNORECASE).freeze unless case_sensitive
+      unless case_sensitive
+        pattern = Regexp.escape(pattern)
+        pattern = Regexp.new(pattern, Regexp::IGNORECASE).freeze
+      end
+
       all.select { |l| l.name.match? pattern }
     end
 
